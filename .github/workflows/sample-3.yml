@@ -10,11 +10,15 @@ jobs:
     - name: Check out repository
       uses: actions/checkout@v2
 
-    - name: Get the last successful commit hash
-      id: get_last_successful_commit
+    - name: Get the last successful commit
       run: |
-        LAST_SUCCESSFUL_COMMIT=$(gh run list --branch main --workflow calculate-changed-files.yml --json headSha --jq '.[1].headSha')
-        echo "LAST_SUCCESSFUL_COMMIT=$LAST_SUCCESSFUL_COMMIT" >> $GITHUB_ENV
+        LAST_SUCCESSFUL_COMMIT=$(gh run list --branch main --workflow calculate-changed-files.yml --json headSha --jq '.[1].headSha' || echo "")
+        if [ -z "$LAST_SUCCESSFUL_COMMIT" ]; then
+          echo "No previous successful commit found. Skipping."
+          echo "LAST_SUCCESSFUL_COMMIT=" >> $GITHUB_ENV
+        else
+          echo "LAST_SUCCESSFUL_COMMIT=$LAST_SUCCESSFUL_COMMIT" >> $GITHUB_ENV
+        fi
 
     - name: Get the list of changed files
       id: changes
