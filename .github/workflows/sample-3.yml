@@ -9,6 +9,8 @@ jobs:
     steps:
     - name: Check out repository
       uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
 
     - name: Get the last successful commit
       run: |
@@ -26,7 +28,6 @@ jobs:
     - name: Get the list of changed files
       id: changes
       run: |
-        git log
         git diff --name-only $LAST_SUCCESSFUL_COMMIT HEAD > changed_files.txt
         echo "CHANGED_FILES=$(cat changed_files.txt)" >> $GITHUB_ENV
 
