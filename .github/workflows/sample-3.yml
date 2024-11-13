@@ -3,7 +3,9 @@ on: workflow_dispatch
 jobs:
   calculate-changes:
     runs-on: ubuntu-latest
-
+    env:
+      GH_TOKEN: ${{ github.token }}
+      
     steps:
     - name: Check out repository
       uses: actions/checkout@v2
