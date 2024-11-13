@@ -1,0 +1,23 @@
+name: Sample 3 - Changes files
+on: workflow_dispatch
+jobs:
+  calculate-changes:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v2
+
+    - name: Get the list of changed files
+      id: changes
+      run: |
+        git fetch origin
+        git diff --name-only HEAD^ HEAD > changed_files.txt
+        echo "CHANGED_FILES=$(cat changed_files.txt)" >> $GITHUB_ENV
+
+    - name: Add changed files to job summary
+      run: |
+        echo "## Changed files:" >> $GITHUB_STEP_SUMMARY
+        while IFS= read -r file; do
+          echo "- $file" >> $GITHUB_STEP_SUMMARY
+        done < changed_files.txt
