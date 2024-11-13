@@ -8,16 +8,18 @@ jobs:
     - name: Check out repository
       uses: actions/checkout@v2
 
+    - name: Get the last successful commit hash
+      id: get_last_successful_commit
+      run: |
+        LAST_SUCCESSFUL_COMMIT=$(gh run list --branch main --workflow calculate-changed-files.yml --json headSha --jq '.[1].headSha')
+        echo "LAST_SUCCESSFUL_COMMIT=$LAST_SUCCESSFUL_COMMIT" >> $GITHUB_ENV
+
     - name: Get the list of changed files
       id: changes
       run: |
-        if git rev-parse HEAD^ >/dev/null 2>&1; then
-          git diff --name-only HEAD^ HEAD > changed_files.txt
-          echo "CHANGED_FILES=$(cat changed_files.txt)" >> $GITHUB_ENV
-        else
-          echo "No previous commit found. Skipping git diff."
-          echo "CHANGED_FILES=" >> $GITHUB_ENV
-        fi
+        git fetch origin
+        git diff --name-only $LAST_SUCCESSFUL_COMMIT HEAD > changed_files.txt
+        echo "CHANGED_FILES=$(cat changed_files.txt)" >> $GITHUB_ENV
 
     - name: Add changed files to job summary
       run: |
