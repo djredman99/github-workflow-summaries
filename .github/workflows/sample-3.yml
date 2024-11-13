@@ -27,8 +27,8 @@ jobs:
       id: changes
       run: |
         git fetch origin
-        git diff --name-only $LAST_SUCCESSFUL_COMMIT HEAD > changed_files.txt
-        echo "CHANGED_FILES=$(cat changed_files.txt)" >> $GITHUB_ENV
+   #     git diff --name-only $LAST_SUCCESSFUL_COMMIT HEAD > changed_files.txt
+    #    echo "CHANGED_FILES=$(cat changed_files.txt)" >> $GITHUB_ENV
 
     - name: Add changed files to job summary
       run: |
