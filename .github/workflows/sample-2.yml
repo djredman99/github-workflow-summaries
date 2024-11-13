@@ -1,5 +1,5 @@
 name: Sample Two
-on: workflow_dispatch
+on: [workflow_dispatch]
 jobs:
   basic:
     runs-on: ubuntu-latest
