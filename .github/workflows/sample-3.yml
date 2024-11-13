@@ -22,9 +22,6 @@ jobs:
           echo "LAST_SUCCESSFUL_COMMIT=$LAST_SUCCESSFUL_COMMIT" >> $GITHUB_ENV
         fi
 
-    - name: Where am I
-      run: pwd
-
     - name: Get the list of changed files
       id: changes
       run: |
