@@ -12,7 +12,7 @@ jobs:
 
     - name: Get the last successful commit
       run: |
-        LAST_SUCCESSFUL_COMMIT=$(gh run list --branch main --workflow sample-3.yml --json headSha --jq '.[1].headSha' || echo "")
+        LAST_SUCCESSFUL_COMMIT=$(gh run list --branch main --workflow sample-3.yml --json headSha,conclusion --jq '.[] | select(.conclusion == "success") | .headSha' | head -n 1 || echo "")
         if [ -z "$LAST_SUCCESSFUL_COMMIT" ]; then
           echo "No previous successful commit found. Skipping."
           echo "LAST_SUCCESSFUL_COMMIT=" >> $GITHUB_ENV
