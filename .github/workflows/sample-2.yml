@@ -1,3 +1,13 @@
-
-
+name: Sample Two
+on: workflow_dispatch
+jobs:
+  basic:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "This is a bulleted list" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
+          echo "- Lets add a bullet point" >> $GITHUB_STEP_SUMMARY
+          echo "- Lets add a second bullet point" >> $GITHUB_STEP_SUMMARY
+          echo "- How about a third one?" >> $GITHUB_STEP_SUMMARY
 
