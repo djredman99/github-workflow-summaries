@@ -4,6 +4,7 @@ This repository has a collection of Action Workflows that show various examples 
 
 This repository shows:
 1. Basic outputs
-2. Changed files since last workflow run
-3. Test Results
+2. Bulletpoint Summary
+3. Changed files since last workflow run
+4. Code Block
 
