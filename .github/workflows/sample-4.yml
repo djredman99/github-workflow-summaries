@@ -5,4 +5,23 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Hello"
+      - name: Output to step summary [title]
+        run: |
+          echo "# Actual" >> $GITHUB_STEP_SUMMARY
+
+      - name: Output to step summary [details start tag]
+        run: |
+          echo "<details>" >> $GITHUB_STEP_SUMMARY
+          echo "<summary>detail</summary>" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+      - name: Output to step summary [body]
+        run: |
+          echo '```json' >> $GITHUB_STEP_SUMMARY
+          echo '{ "test": "bar" }' >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+
+      - name: Output to step summary [details end tag]
+        run: |
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "</details>" >> $GITHUB_STEP_SUMMARY
