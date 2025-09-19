@@ -2,26 +2,44 @@ name: Sample Four
 on: 
   workflow_dispatch:
 jobs:
-  test:
+  code-block:
+    env:
+      DETAILS: 'true'  # Set to 'false' to disable details tag
+    name: Code Block Sample
     runs-on: ubuntu-latest
     steps:
+      - name: Setup
+        id: setup
+        run: |
+          # Create a path to save the summary.
+          echo "summary=${{ runner.temp }}/summary.md" >> $GITHUB_OUTPUT
+
       - name: Output to step summary [title]
         run: |
-          echo "# Actual" >> $GITHUB_STEP_SUMMARY
+          echo "# Workaround" > ${{ steps.setup.outputs.summary }}
 
       - name: Output to step summary [details start tag]
+        if: ${{ env.DETAILS == 'true' }}
         run: |
-          echo "<details>" >> $GITHUB_STEP_SUMMARY
-          echo "<summary>detail</summary>" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "<details>" >> ${{ steps.setup.outputs.summary }}
+          echo "<summary>detail</summary>" >> ${{ steps.setup.outputs.summary }}
+          echo "" >> ${{ steps.setup.outputs.summary }}
 
       - name: Output to step summary [body]
         run: |
-          echo '```json' >> $GITHUB_STEP_SUMMARY
-          echo '{ "test": "bar" }' >> $GITHUB_STEP_SUMMARY
-          echo '```' >> $GITHUB_STEP_SUMMARY
+          echo 'foo' >> ${{ steps.setup.outputs.summary }}
+          echo '```json' >> ${{ steps.setup.outputs.summary }}
+          echo '{ "test": "bar" }' >> ${{ steps.setup.outputs.summary }}
+          echo '```' >> ${{ steps.setup.outputs.summary }}
 
       - name: Output to step summary [details end tag]
+        if: ${{ env.DETAILS == 'true' }}
         run: |
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "</details>" >> $GITHUB_STEP_SUMMARY
+          echo "" >> ${{ steps.setup.outputs.summary }}
+          echo "</details>" >> ${{ steps.setup.outputs.summary }}
+
+      - name: Output to step summary
+        shell: bash
+        run: |
+          cat ${{ steps.setup.outputs.summary }}
+          cat ${{ steps.setup.outputs.summary }} >> $GITHUB_STEP_SUMMARY
