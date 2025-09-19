@@ -1,4 +1,4 @@
-name: Sample Four
+name: Sample Four - Code Block
 on: 
   workflow_dispatch:
 jobs:

@@ -1,4 +1,4 @@
-name: Sample One
+name: Sample One - Basic
 on: workflow_dispatch
 jobs:
   basic:

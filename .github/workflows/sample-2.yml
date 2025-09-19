@@ -1,4 +1,4 @@
-name: Sample Two
+name: Sample Two - Bullets
 on: [workflow_dispatch]
 jobs:
   basic:
