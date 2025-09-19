@@ -13,6 +13,7 @@ jobs:
         fetch-depth: 0
 
     - name: Get the last successful commit
+      id: last-success
       run: |
         LAST_SUCCESSFUL_COMMIT=$(gh run list --branch main --workflow sample-3.yml --json headSha,conclusion --jq '.[] | select(.conclusion == "success") | .headSha' | head -n 1 || echo "")
         if [ -z "$LAST_SUCCESSFUL_COMMIT" ]; then
@@ -21,12 +22,15 @@ jobs:
         else
           echo "LAST_SUCCESSFUL_COMMIT=$LAST_SUCCESSFUL_COMMIT" >> $GITHUB_ENV
         fi
+#        echo "LAST_COMMIT=$LAST_SUCCESSFUL_COMMIT" >> $GITHUB_OUTPUT
 
     - name: Get the list of changed files
       id: changes
       run: |
         git diff --name-only $LAST_SUCCESSFUL_COMMIT HEAD > changed_files.txt
-        echo "CHANGED_FILES=$(cat changed_files.txt)" >> $GITHUB_ENV
+        echo "CHANGED_FILES<<EOF" >> $GITHUB_ENV
+        cat changed_files.txt >> $GITHUB_ENV
+        echo "EOF" >> $GITHUB_ENV
 
     - name: Add changed files to job summary
       run: |
