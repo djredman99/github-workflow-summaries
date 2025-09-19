@@ -16,17 +16,18 @@ jobs:
 
       - name: Output to step summary [title]
         run: |
-          echo "# Workaround" > ${{ steps.setup.outputs.summary }}
+          echo "# Build Summary" > ${{ steps.setup.outputs.summary }}
 
       - name: Output to step summary [details start tag]
         if: ${{ env.DETAILS == 'true' }}
         run: |
           echo "<details>" >> ${{ steps.setup.outputs.summary }}
-          echo "<summary>detail</summary>" >> ${{ steps.setup.outputs.summary }}
+          echo "<summary>To manually download artifact from the command-line, please run the following command</summary>" >> ${{ steps.setup.outputs.summary }}
           echo "" >> ${{ steps.setup.outputs.summary }}
 
       - name: Output to step summary [body]
         run: |
+          echo "" >> ${{ steps.setup.outputs.summary }}  # Blank line for spacing
           echo 'foo' >> ${{ steps.setup.outputs.summary }}
           echo '```json' >> ${{ steps.setup.outputs.summary }}
           echo '{ "test": "bar" }' >> ${{ steps.setup.outputs.summary }}
