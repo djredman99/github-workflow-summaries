@@ -21,14 +21,15 @@ jobs:
       - name: Output to step summary [details start tag]
         if: ${{ env.DETAILS == 'true' }}
         run: |
-          echo "<details>" >> ${{ steps.setup.outputs.summary }}
           echo "To manually download artifact from the command-line, please run the following command" >> ${{ steps.setup.outputs.summary }}
+          echo "<details>" >> ${{ steps.setup.outputs.summary }}
+          echo "" >> ${{ steps.setup.outputs.summary }}  # Blank line for spacing
+          echo "<summary>expand</summary>" >> ${{ steps.setup.outputs.summary }}
           echo "" >> ${{ steps.setup.outputs.summary }}
 
       - name: Output to step summary [body]
         run: |
-          echo "" >> ${{ steps.setup.outputs.summary }}  # Blank line for spacing
-          echo '<summary>expand</summary>' >> ${{ steps.setup.outputs.summary }}
+          
           echo '```json' >> ${{ steps.setup.outputs.summary }}
           echo '{ "test": "bar" }' >> ${{ steps.setup.outputs.summary }}
           echo '```' >> ${{ steps.setup.outputs.summary }}
